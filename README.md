@@ -1,3 +1,20 @@
+# Tahmo RainQA Web UI
+Initially built for a CS539 Class Project
+For use in the larger Tahmo project: https://tahmo.org/
+
+## Consists of several primary libraries
+* yarn for package management
+* Redux / react-redux
+* Ag-grid for tables or list of the anomalies
+* React-Leaflet for mapping https://leafletjs.com/ https://react-leaflet.js.org/ 
+* Ant design for UI/boostrap https://github.com/ant-design/ant-design https://ant.design/components/overview/ 
+
+## Database
+
+
+# Project creation information
+created 10/29/20 by Brett Stoddard
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts

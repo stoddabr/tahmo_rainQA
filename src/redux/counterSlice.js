@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+// wheat is create slice? https://redux-toolkit.js.org/api/createSlice 
 
 export const counterSlice = createSlice({
   name: 'counter',
