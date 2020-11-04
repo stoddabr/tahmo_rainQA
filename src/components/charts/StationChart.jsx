@@ -9,6 +9,9 @@ import generatePlotlyChart from './configStationChart'
 
 function StationChart() {
   // TODO get from redux
+  const datasets = []
+  const thresholds = []
+
   return (
     <Plot
       data={generatePlotlyChart(datasets, thresholds)}
