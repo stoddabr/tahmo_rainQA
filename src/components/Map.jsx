@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  selectCount,
-} from '../redux/counterSlice';
+  selectStationId,
+} from '../redux/stationSlice';
 import { Row, Col, } from 'antd';
-import { MapContainer , CircleMarker, Polyline, Popup, TileLayer } from "react-leaflet";
+import { 
+  MapContainer , CircleMarker, Polyline, Popup, TileLayer, 
+  useMap, useMapEvent
+} from "react-leaflet";
 import "leaflet/dist/images/marker-shadow.png";
 import 'leaflet/dist/leaflet.css';
 
@@ -28,6 +31,8 @@ const gpsStations = [
   [7.6194, 21.4367],
   [6.6194, 21.9367],
   [5.6194, 21.9367],
+  [23.263537, -5.210972],
+  [14.029675, 40.690370]
 ]
 const polyline = [
   gpsStations[0],
@@ -40,31 +45,55 @@ const polyline2 = [
 const pathOptions2 = { color: 'blue', weight: 10 }
 const pathOptions1 = { color: 'blue', weight: 2 }
 
+function MapController() {
+  /* test, zoom out on click
+  see https://react-leaflet-v3.now.sh/docs/api-map 
+  const map = useMap()
+  const onClick = useCallback((e)=> {
+    map.setView(e.latlng, 1)
+  }, [map])
+  useMapEvent('click', onClick)
+  */
+  return null
+}
+
 export default function TahmoMap() {
+
+  const stationId = useSelector(selectStationId);
+  console.log({stationId})
+
+
   return (
     <Row justify="center" align="middle">
       <Col>
         <MapContainer 
           center={position} 
-          zoom={5} 
+          zoom={4} 
           scrollWheelZoom={true} 
           style={mapStyle}
           >
+          <MapController/>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-        <CircleMarker center={gpsStations[0]} pathOptions={redOptions} radius={20}>
-          <Popup>Popup in CircleMarker</Popup>
-        </CircleMarker>
-        <CircleMarker center={gpsStations[1]} pathOptions={limeOptions} radius={20}>
-          <Popup>Popup in CircleMarker</Popup>
-        </CircleMarker>
-        <CircleMarker center={gpsStations[2]} pathOptions={limeOptions} radius={20}>
-          <Popup>Popup in CircleMarker</Popup>
-        </CircleMarker>
-        <Polyline pathOptions={pathOptions1} positions={polyline} />
-        <Polyline pathOptions={pathOptions2} positions={polyline2} />
+          <CircleMarker center={gpsStations[0]} pathOptions={redOptions} radius={20}>
+            <Popup>Example 4</Popup>
+          </CircleMarker>
+          <CircleMarker center={gpsStations[1]} pathOptions={limeOptions} radius={20}>
+            <Popup>Example 2</Popup>
+          </CircleMarker>
+          <CircleMarker center={gpsStations[2]} pathOptions={limeOptions} radius={20}>
+            <Popup>Example 3</Popup>
+          </CircleMarker>
+          <CircleMarker center={gpsStations[3]} pathOptions={limeOptions} radius={20}>
+            <Popup>Example 7</Popup>
+          </CircleMarker>
+          <CircleMarker center={gpsStations[4]} pathOptions={redOptions} radius={20}>
+            <Popup>Example 8</Popup>
+          </CircleMarker>
+          <Polyline pathOptions={pathOptions1} positions={polyline} />
+          <Polyline pathOptions={pathOptions2} positions={polyline2} />
         </MapContainer>
       </Col>
     </Row>

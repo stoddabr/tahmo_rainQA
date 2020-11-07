@@ -4,8 +4,9 @@ import {
   setStationId,
 } from '../redux/stationSlice';
 import { 
-  Row, Col, Form, Input, Button, Table, Divider, message 
+  Row, Col, Typography, Table, Divider, message 
 } from 'antd';
+const { Paragraph } = Typography;
 
 const layout = {
   labelCol: { span: 8 },
@@ -58,35 +59,24 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    classification: 0.1,
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    classification: 0.94,
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    classification: 0.1,
-  },
-  {
-    key: '4',
-    name: 'Jim Red',
-    classification: 0.4,
-  },
-];
+const data = [...Array(10).keys()].map((i)=>{
+  return {
+    key: i,
+    name: `Example ${i}`,
+    classification: Math.random(),
+  }
+})
+console.log({data})
+
+const explination = `A longwinded explination of the machine learning that powers this system can go here. It's expandable so that people who are interested in learning more can but it's still compact for people who don't care`
+const Shakespeare = '. To be, or not to be, that is a question: Whether it is nobler in the mind to suffer. The slings and arrows of outrageous fortune Or to take arms against a sea of troubles, And by opposing end them?'
 
 function onChange(pagination, filters, sorter, extra) {
   console.log('params', pagination, filters, sorter, extra);
 }
 
 
-export default function Template() {
+export default function AnomalyList() {
   const dispatch = useDispatch();
 
   function onSubmit({stationId}) {
@@ -97,10 +87,27 @@ export default function Template() {
       message.error(`Invalid station id: "${stationId}"`)
   }
 
+  function rowSelected(row, i) {
+    console.log("rowSelected", row, i)
+    onSubmit({stationId: row.name})
+  }
+
   return (
-    <>
+    <div style={{maxHeight: '90vh', overflow:'auto'}}>
       <Row>
-        <Col span={12}>
+        <Col flex={2}>
+          <Paragraph
+            style={{ padding: '16px 16px 0px 16px' }}
+            ellipsis={{
+              rows: 2,
+              expandable: true,
+              suffix: '',
+              onEllipsis: ellipsis => console.log('Ellipsis changed:', ellipsis),
+            }}
+          >
+            {explination+Shakespeare}
+          </Paragraph>
+          {/* Search station
           <Form
             {...layout}
             name="basic"
@@ -121,24 +128,21 @@ export default function Template() {
               </Button>
             </Form.Item>
           </Form>
+          */}
         </Col>
       </Row>
       <Divider orientation="left"></Divider>
-      <Row justify="center">
-        <Col>
-          <Table columns={columns} dataSource={data} onChange={onChange} 
-            onRow={(record, rowIndex) => {
-              return {
-                onClick: event => {console.log(event, record)}, // click row
-                onDoubleClick: event => {}, // double click row
-                onContextMenu: event => {}, // right button click row
-                onMouseEnter: event => {}, // mouse enter row
-                onMouseLeave: event => {}, // mouse leave row
-              };
-            }}
-          />
-        </Col>
-      </Row>
-    </>
+      <Table columns={columns} dataSource={data} onChange={onChange} 
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: () => rowSelected(record, rowIndex), // click row
+            onDoubleClick: event => {}, // double click row
+            onContextMenu: event => {}, // right button click row
+            onMouseEnter: event => {}, // mouse enter row
+            onMouseLeave: event => {}, // mouse leave row
+          };
+        }}
+      />
+    </div>
   );
 }

@@ -29,7 +29,7 @@ function PlotlyLine() {
           marker: {color: 'red'},
         }
       ]}
-      layout={{autosize: true, title: 'A Fancy Plot'}}
+      layout={{autosize: true, title: 'Rain Data: Monthly'}}
     />
   );
 }

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 function parseWeatherData(initData) {
   /**
-   * TODO code for parsing database query gos here
+   * TODO code for parsing database query goes here
    */
   return initData
 }
