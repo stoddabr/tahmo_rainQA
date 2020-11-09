@@ -3,18 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setStationId,
 } from '../redux/stationSlice';
+import {
+  selectAllStations,
+} from '../redux/allStationsSlice';
 import { 
   Row, Col, Typography, Table, Divider, message 
 } from 'antd';
 const { Paragraph } = Typography;
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
 const columns = [
   {
     title: 'Name',
@@ -59,15 +55,6 @@ const columns = [
   },
 ];
 
-const data = [...Array(10).keys()].map((i)=>{
-  return {
-    key: i,
-    name: `Example ${i}`,
-    classification: Math.random(),
-  }
-})
-console.log({data})
-
 const explination = `A longwinded explination of the machine learning that powers this system can go here. It's expandable so that people who are interested in learning more can but it's still compact for people who don't care`
 const Shakespeare = '. To be, or not to be, that is a question: Whether it is nobler in the mind to suffer. The slings and arrows of outrageous fortune Or to take arms against a sea of troubles, And by opposing end them?'
 
@@ -77,6 +64,7 @@ function onChange(pagination, filters, sorter, extra) {
 
 
 export default function AnomalyList() {
+  const stationList = useSelector(selectAllStations)
   const dispatch = useDispatch();
 
   function onSubmit({stationId}) {
@@ -132,7 +120,7 @@ export default function AnomalyList() {
         </Col>
       </Row>
       <Divider orientation="left"></Divider>
-      <Table columns={columns} dataSource={data} onChange={onChange} 
+      <Table columns={columns} dataSource={stationList} onChange={onChange} 
         onRow={(record, rowIndex) => {
           return {
             onClick: () => rowSelected(record, rowIndex), // click row

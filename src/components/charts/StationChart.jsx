@@ -11,54 +11,73 @@ import generatePlotlyChart from './configStationChart'
 import {
   getWeatherData, // thunk
   selectStationData,
+  selectChartType,
 } from '../../redux/stationSlice';
 
 const Plot = createPlotlyComponent(Plotly);
 
-const testData = {
-   x : [1,2,3,4,5,6,7],
-   y : [2,4,25,2,3,5,1],
-   threshold : 4
-}
-
 function StationChart() {
   const [hovering, setHovering] = useState(false)
-  // TODO get from redux
-  const datasets = []
-  const thresholds = []
-
-  const {x={}, y={}, threshold=-999} = useSelector(selectStationData) || testData;
+  const [datasets, setDatasets] = useState([])
+  
+  const weatherData = useSelector(selectStationData);
+  const selectedPlot = useSelector(selectChartType);
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    if (threshold === -999) { // sentinal value
-      dispatch(getWeatherData(testData))
-    }
+      dispatch(getWeatherData())
   },[])
 
-  return (
-    <Plot
-      data={[
-        {
+  function parseDataToPlots(data) {
+    const {x, ys, threshold, colors} = data
+    console.log('xs or y is not defined in data', data)
+
+    if (x && ys) {
+      const plots = []
+      Object.keys(ys).forEach((yKey, i) => {
+        plots.push({
           x,
-          y,
+          y: ys[yKey],
+          name: yKey,
           type: 'scatter',
           mode: 'lines+markers',
-          marker: {color: 'blue'},
-        },
-        {
+          marker: {color: colors ? colors[i] : 'red'},
+        })
+      })
+      if (threshold) {
+        plots.push(        {
           y: [threshold, threshold],
           x: [x[0], x[x.length-1]],
+          name: 'Threshold',
           type: 'scatter',
           mode: 'lines',
           marker: {color: 'red'},
-        }
-      ]}
-      layout={{title: 'Rain Data: Monthly'}}
-      config={{displaylogo: false}}
-      onHover={()=>setHovering(true)}
-      onUnhover={()=>setHovering(false)}
-    />
+        })
+      }
+      return plots
+    }
+    console.log('xs or y is not defined in data', data)
+  }
+  useEffect(()=> {
+    if (weatherData && weatherData[selectedPlot])
+      setDatasets(
+        parseDataToPlots(weatherData[selectedPlot])
+      )
+  },[weatherData, selectedPlot])
+
+  return (
+    <>
+      {datasets.length > 0 ? 
+        <Plot
+          data={datasets}
+          layout={{title: `Rain Data: ${selectedPlot}`}}
+          config={{displaylogo: false}}
+          onHover={()=>setHovering(true)}
+          onUnhover={()=>setHovering(false)}
+        />
+        : <p>No data</p>
+      }
+    </>
   );
 }
 

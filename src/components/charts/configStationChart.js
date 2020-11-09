@@ -1,3 +1,6 @@
+/**
+ * not used
+ */
 import {
   thresholdColors, stationColors,
 } from '../../constants/colors'

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectStationId,
-} from '../redux/stationSlice';
+} from '../../redux/stationSlice';
 import { Row, Col, } from 'antd';
 import { 
   MapContainer , CircleMarker, Polyline, Popup, TileLayer, 
@@ -10,6 +10,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/images/marker-shadow.png";
 import 'leaflet/dist/leaflet.css';
+import StatonsMapper from './StationsMapper'
 
 // https://react-leaflet.js.org/docs/api-map
 
@@ -77,23 +78,7 @@ export default function TahmoMap() {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <CircleMarker center={gpsStations[0]} pathOptions={redOptions} radius={20}>
-            <Popup>Example 4</Popup>
-          </CircleMarker>
-          <CircleMarker center={gpsStations[1]} pathOptions={limeOptions} radius={20}>
-            <Popup>Example 2</Popup>
-          </CircleMarker>
-          <CircleMarker center={gpsStations[2]} pathOptions={limeOptions} radius={20}>
-            <Popup>Example 3</Popup>
-          </CircleMarker>
-          <CircleMarker center={gpsStations[3]} pathOptions={limeOptions} radius={20}>
-            <Popup>Example 7</Popup>
-          </CircleMarker>
-          <CircleMarker center={gpsStations[4]} pathOptions={redOptions} radius={20}>
-            <Popup>Example 8</Popup>
-          </CircleMarker>
-          <Polyline pathOptions={pathOptions1} positions={polyline} />
-          <Polyline pathOptions={pathOptions2} positions={polyline2} />
+          <StatonsMapper/>
         </MapContainer>
       </Col>
     </Row>
