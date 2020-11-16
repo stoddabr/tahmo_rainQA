@@ -4,13 +4,16 @@ import { createSlice } from '@reduxjs/toolkit';
 function parseStationData(initData) {
   /**
    * TODO code for parsing database query goes here
+   * 
+   * @TAHMO_TODO parse api data into datastructure used by app
+   * @TAHMO_TODO see how fakeStations is constructed for example
    */
   return initData
 }
 
 const initialState = {
   stations: [],
-  hightlightedStationData: []
+  highlightedStationKey: -1,
 }
 
 export const allStationsSlice = createSlice({
@@ -23,10 +26,19 @@ export const allStationsSlice = createSlice({
     setStationData: (state, action) => {
       state.stations = parseStationData(action.payload);
     },
+    clearHighlightedStation: state => {
+      state.highlightedStationKey = initialState.highlightedStationKey;
+    },
+    setHighlightedStation: (state, action) => {
+      state.highlightedStationKey = action.payload;
+    },
   },
 });
 
-export const { clearStationData, setStationData } = allStationsSlice.actions;
+export const { 
+  clearStationData, setStationData, 
+  clearHighlightedStation, setHighlightedStation,  
+} = allStationsSlice.actions;
 
 // for testing
 const fakeLat = ()=> Math.random()*15+5; 
@@ -64,10 +76,18 @@ for(var i = 1; i <= numFakes; i++) {
   fakeStations.push(station)
 };
 
-// The function below is called a thunk and allows us to perform async logic. It
+//The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
+
+/**
+ * fetches station data
+ * @TAHMO_TODO replace code in this function with a call to the api
+ * @see parseStationData used for parsing from api to datastructure
+ * @see dispatch(setStationData(*)) for storing data to the redux store
+ * @param {*} amount used for getting proper station information TBD
+ */
 export const getStationsData = amount => dispatch => {
   setTimeout(() => {
     console.log('stations set', fakeStations)
@@ -79,5 +99,6 @@ export const getStationsData = amount => dispatch => {
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectAllStations = state => state.allStations.stations;
+export const selectHighlightedStation = state => state.allStations.highlightedStationKey;
 
 export default allStationsSlice.reducer;

@@ -1,12 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // wheat is create slice? https://redux-toolkit.js.org/api/createSlice 
 
-function parseWeatherData(initData) {
-  /**
-   * TODO code for parsing database query goes here
-   */
-  return initData
-}
 
 const initialState = {
   id: false,
@@ -90,10 +84,36 @@ const fakeWeatherData = {
   },
 }
 
+/**
+ * parses api data to app-usable form
+ * see fakeWeatherData construction above for example
+ * @TAHMO_TODO 
+ * @param {object} apiData 
+ * @returns {object} parsed api data in form the app can use, eg fakeWeatherData
+ */
+function parseWeatherData(apiData) {
+  /**
+   * TODO code for parsing database query goes here
+   * 
+   * @TAHMO_TODO parse api data into datastructure used by app
+   * @TAHMO_TODO see how fakeStations is constructed for example
+   */
+  const appData = apiData
+  return appData
+}
+
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
+
+/**
+ * fetches, parses, then stores weather data for a station and it's neighbors
+ * @TAHMO_TODO replace code in this function with a call to the api
+ * @see parseWeatherData used for parsing from api to datastructure
+ * @see dispatch(setStationData(*)) for storing data to the redux store
+ * @param {*} amount used for getting proper station information *TBD*
+ */
 export const getWeatherData = amount => dispatch => {
   setTimeout(() => {
     dispatch(setWeatherData(fakeWeatherData));

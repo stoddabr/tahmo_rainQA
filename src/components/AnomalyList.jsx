@@ -4,7 +4,8 @@ import {
   setStationId,
 } from '../redux/stationSlice';
 import {
-  selectAllStations,
+  selectAllStations, selectHighlightedStation, 
+  setHighlightedStation, clearHighlightedStation,
 } from '../redux/allStationsSlice';
 import { 
   Row, Col, Typography, Table, Divider, message 
@@ -55,17 +56,20 @@ const columns = [
   },
 ];
 
+// @TAHMO_TODO, edit text explination
 const explination = `A longwinded explination of the machine learning that powers this system can go here. It's expandable so that people who are interested in learning more can but it's still compact for people who don't care`
-const Shakespeare = '. To be, or not to be, that is a question: Whether it is nobler in the mind to suffer. The slings and arrows of outrageous fortune Or to take arms against a sea of troubles, And by opposing end them?'
 
 function onChange(pagination, filters, sorter, extra) {
   console.log('params', pagination, filters, sorter, extra);
 }
 
+// list highlighting should be possible using custom selector by passing highlightedStationKey
+// https://ant.design/components/table/#components-table-demo-row-selection-custom
 
 export default function AnomalyList() {
-  const stationList = useSelector(selectAllStations)
   const dispatch = useDispatch();
+  const stationList = useSelector(selectAllStations)
+  const highlightedStationKey = useSelector(selectHighlightedStation);
 
   function onSubmit({stationId}) {
     console.log('form submit', stationId)
@@ -80,10 +84,21 @@ export default function AnomalyList() {
     onSubmit({stationId: row.name})
   }
 
+  function onRowHover(record) {
+    console.log('onRowHover',record)
+    dispatch(setHighlightedStation(record.key))
+  }
+
+  function onRowHoverEnd(record) {
+    console.log('onRowHoverEnd',record)
+    dispatch(clearHighlightedStation())
+  }
+
   return (
     <div style={{maxHeight: '90vh', overflow:'auto'}}>
       <Row>
         <Col flex={2}>
+          {/* start header explination section @TAHMO_TODO */}
           <Paragraph
             style={{ padding: '16px 16px 0px 16px' }}
             ellipsis={{
@@ -93,30 +108,9 @@ export default function AnomalyList() {
               onEllipsis: ellipsis => console.log('Ellipsis changed:', ellipsis),
             }}
           >
-            {explination+Shakespeare}
+            {explination}
           </Paragraph>
-          {/* Search station
-          <Form
-            {...layout}
-            name="basic"
-            initialValues={{ remember: true }}
-            onFinish={onSubmit}
-          >
-            <Form.Item
-              label="Station Id"
-              name="stationId"
-              rules={[{ required: true, message: 'Select station' }]}
-            >
-              <Input/>
-            </Form.Item>
-
-            <Form.Item {...tailLayout}>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-          */}
+          {/* end header explination section @TAHMO_TODO */}
         </Col>
       </Row>
       <Divider orientation="left"></Divider>
@@ -124,12 +118,13 @@ export default function AnomalyList() {
         onRow={(record, rowIndex) => {
           return {
             onClick: () => rowSelected(record, rowIndex), // click row
-            onDoubleClick: event => {}, // double click row
-            onContextMenu: event => {}, // right button click row
-            onMouseEnter: event => {}, // mouse enter row
-            onMouseLeave: event => {}, // mouse leave row
+            // onDoubleClick: e => {}, // double click row
+            // onContextMenu: e => {}, // right button click row
+            onMouseEnter: e => { onRowHover(record) }, // mouse enter row
+            onMouseLeave: e => { onRowHoverEnd(record) }, // mouse leave row
           };
         }}
+        pagination={false} // hides bottom bar
       />
     </div>
   );

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectStationId,
 } from '../../redux/stationSlice';
 import {
-  selectAllStations,
+  selectAllStations, selectHighlightedStation, 
+  setHighlightedStation, clearHighlightedStation,
 } from '../../redux/allStationsSlice';
 import { Row, Col, } from 'antd';
 import { 
@@ -16,58 +17,64 @@ import 'leaflet/dist/leaflet.css';
 
 // https://react-leaflet.js.org/docs/api-map
 
-const backgroundStyle = {
-  backgroundColor: 'blue',
-  height: '90vh',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: 'white', // font color
-}
-const mapStyle = {
-  height: '90vh',
-  width: '50vw', 
-}
-const position = [6.6194, 20.9367]
-const limeOptions = { color: 'lime' }
-const redOptions = { color: 'red' }
-const gpsStations = [
-  [7.6194, 21.4367],
-  [6.6194, 21.9367],
-  [5.6194, 21.9367],
-  [23.263537, -5.210972],
-  [14.029675, 40.690370]
-]
-const polyline = [
-  gpsStations[0],
-  gpsStations[1],
-]
-const polyline2 = [
-  gpsStations[0],
-  gpsStations[2]
-]
-const pathOptions2 = { color: 'blue', weight: 10 }
-const pathOptions1 = { color: 'blue', weight: 2 }
 
+const limeOptions = { color: 'lime', fillColor: 'lime' }
+const redOptions = { color: 'red', fillColor: 'red' }
+
+
+function Station({station, index}) {
+  const inputEl = useRef(null);
+  const [pathOptions, setPathOptions] = useState(station.isFlagged ? redOptions : limeOptions);
+  const dispatch = useDispatch();
+  const highlightedStationKey = useSelector(selectHighlightedStation);
+
+  useEffect(()=>{
+    if (highlightedStationKey && station.key === highlightedStationKey) {
+      setPathOptions( { ...pathOptions, fillColor:'blue' } )
+      inputEl.current.openPopup()
+    }  else {
+      setPathOptions( station.isFlagged ? redOptions : limeOptions )
+      inputEl.current.closePopup()
+    }
+  }, [highlightedStationKey])
+
+  function onHoverStation(e) {
+    console.log('hover station', e.target.options.name)
+    e.target.openPopup()
+    dispatch(setHighlightedStation(e.target.options.name))
+  }
+
+  function onHoverOffStation(e) {
+    console.log('hover leave station', e.target.options.name)
+    e.target.closePopup()
+    dispatch(clearHighlightedStation())
+  }
+
+  return (
+    <CircleMarker 
+      ref={inputEl}
+      key={'stationMarker'+index}
+      name={station.key}
+      center={station.gps} pathOptions={pathOptions} radius={15}
+      eventHandlers={{
+        click: () => { console.log('marker clicked') },
+        mouseover: onHoverStation,
+        mouseout: onHoverOffStation,
+      }}
+    >
+      <Popup>{station.name}</Popup>
+    </CircleMarker>
+  );
+}
 
 function StationCircles({stations}) {
   if (stations)
-    return stations.map((station,i) => {
-      const stationStyle = station.isFlagged ? redOptions : limeOptions
-      return (
-        <CircleMarker 
-          key={'stationMarker'+i}
-          center={station.gps} pathOptions={stationStyle} radius={15}
-          eventHandlers={{
-            click: () => {
-              console.log('marker clicked')
-            },
-            onhover: (e) => e.target.openPopup(),
-          }}
-        >
-          <Popup>{station.name}</Popup>
-        </CircleMarker>
-      );
-    })
+    return stations.map((station,i) => (
+      <Station 
+        station={station} 
+        index={i}
+      />
+    ))
   return null
 }
 
@@ -80,8 +87,11 @@ function StationConnections({connections, mainGps}) {
           key={`connection ${i}`} 
           pathOptions={pathOptions} 
           positions={[neighbor.gps, mainGps]} 
-          onMouseOver={e => e.target.setStyle({fillColor: 'green'})}
-          onMouseOut={e => e.target.closePopup()}
+          eventHandlers={{
+            mouseover: (e) => {
+              e.target.openPopup()
+            },
+          }}
         >
           <Popup>{`From ${neighbor.name}, weight: ${neighbor.weight}`}</Popup>
         </Polyline>
