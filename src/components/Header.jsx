@@ -22,6 +22,9 @@ export default function Header() {
             <Title type='secondary'>Tahmo RainQA</Title>
           </div>
         </Col>
+        <Col>
+          {/** @TAHMO_TODO add img logo here */}
+        </Col>
       </Row>
     </>
   );
