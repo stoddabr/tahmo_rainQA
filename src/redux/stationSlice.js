@@ -83,6 +83,7 @@ const fakeWeatherData = {
     x: Array.from({length: num}, (v, i) => new Date(startingTime+msInWeek*i)),
   },
 }
+console.log('asdf', {fakeWeatherData}, JSON.stringify(fakeWeatherData))
 
 /**
  * parses api data to app-usable form

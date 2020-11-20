@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Typography } from 'antd';
+import { Row, Col, Typography, Image } from 'antd';
 
 const { Title } = Typography;
 
@@ -24,6 +24,10 @@ export default function Header() {
         </Col>
         <Col>
           {/** @TAHMO_TODO add img logo here */}
+          <Image
+            width={20}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
         </Col>
       </Row>
     </>
