@@ -10,7 +10,6 @@
     "ag-grid-community": "^24.1.0",
     "ag-grid-react": "^24.1.1",
     "antd": "^4.7.3",
-    "dotenv": "^8.2.0",
     "leaflet": "^1.7.1",
     "plotly.js-basic-dist": "^1.57.1",
     "react": "^17.0.1",
