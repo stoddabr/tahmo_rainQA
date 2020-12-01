@@ -19,8 +19,8 @@ const tabData = [{
   },{ 
     title: 'Double Mass',
     description: <>
-      Double mass graph sums the rainfall or something idk 
-      <a href='https://pubs.usgs.gov/wsp/1541b/report.pdf'> just read this</a>
+      Double mass rainfall sums 
+      <a href='https://pubs.usgs.gov/wsp/1541b/report.pdf'> reference link</a>
     </>,
     id: 'dm', // for station reducer
 }];

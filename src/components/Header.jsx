@@ -17,18 +17,18 @@ export default function Header() {
   return (
     <>
       <Row style={backgroundStyle}>
-        <Col span={12}>
-          <div>
-            <Title type='secondary'>Tahmo RainQA</Title>
-          </div>
-        </Col>
-        <Col>
+	   <Col>
           {/** @TAHMO_TODO add img logo here */}
           <Image
-            width={20}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+            width={200}
+            src="https://tahmo.org/wp-content/uploads/2014/02/TAHMO_logo1.png"
           />
         </Col>
+        <Col span={12}>
+          <div>
+            <Title type='primary'>RainAVT</Title>
+          </div>
+        </Col>       
       </Row>
     </>
   );

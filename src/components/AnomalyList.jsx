@@ -57,7 +57,7 @@ const columns = [
 ];
 
 // @TAHMO_TODO, edit text explination
-const explination = `A longwinded explination of the machine learning that powers this system can go here. It's expandable so that people who are interested in learning more can but it's still compact for people who don't care`
+const explination = `RainQC System Version 1.1. Model training date: 15 September 2020. Current anomaly scoring computed using the MixLinearResidual method. 51 models currently active.`
 
 function onChange(pagination, filters, sorter, extra) {
   console.log('params', pagination, filters, sorter, extra);
