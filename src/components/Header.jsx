@@ -20,7 +20,7 @@ export default function Header() {
 	   <Col>
           {/** @TAHMO_TODO add img logo here */}
           <Image
-            width={200}
+            width={120}
             src="https://tahmo.org/wp-content/uploads/2014/02/TAHMO_logo1.png"
           />
         </Col>

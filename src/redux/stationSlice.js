@@ -113,11 +113,12 @@ function parseWeatherData(apiData) {
  * @TAHMO_TODO replace code in this function with a call to the api
  * @see parseWeatherData used for parsing from api to datastructure
  * @see dispatch(setStationData(*)) for storing data to the redux store
- * @param {*} amount used for getting proper station information *TBD*
+ * @param {*} stationKey used for getting proper station information *TBD*
  */
-export const getWeatherData = amount => dispatch => {
+export const getWeatherData = stationKey => dispatch => {
+  console.log('getWeatherData',stationKey)
   setTimeout(() => {
-    dispatch(setWeatherData(fakeWeatherData));
+    dispatch(setWeatherData(stationKey));
   }, 1000);
 };
 

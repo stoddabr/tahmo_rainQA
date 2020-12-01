@@ -13,6 +13,7 @@ import {
   selectStationData,
   selectChartType,
 } from '../../redux/stationSlice';
+import { selectHighlightedStation } from '../../redux/allStationsSlice'
 
 const Plot = createPlotlyComponent(Plotly);
 
@@ -22,11 +23,12 @@ function StationChart() {
   
   const weatherData = useSelector(selectStationData);
   const selectedPlot = useSelector(selectChartType);
+  const selectedStation = useSelector(selectHighlightedStation)
   const dispatch = useDispatch();
 
   useEffect(()=>{
-      dispatch(getWeatherData())
-  },[])
+    dispatch(getWeatherData(selectedStation))
+  },[selectedStation])
 
   function parseDataToPlots(data) {
     const {x, ys, threshold, colors} = data
