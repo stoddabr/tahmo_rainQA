@@ -10,7 +10,7 @@ import createPlotlyComponent from 'react-plotly.js/factory';
 import generatePlotlyChart from './configStationChart'
 import {
   getWeatherData, // thunk
-  selectStationData, selectChartType, selectStationNeighbors, // selectors
+  selectStationData, selectChartType, selectStationNeighbors, selectStationId, // selectors
 } from '../../redux/stationSlice';
 import { selectHighlightedStation } from '../../redux/allStationsSlice'
 
@@ -27,7 +27,8 @@ function StationChart() {
   const weatherData = useSelector(selectStationData);
   const stationNeighbors = useSelector(selectStationNeighbors)
   const selectedPlot = useSelector(selectChartType);
-  const selectedStation = useSelector(selectHighlightedStation)
+  const highlightedStation = useSelector(selectHighlightedStation)
+  const selectedStation = useSelector(selectStationId)
   const dispatch = useDispatch();
 
   useEffect(()=>{
@@ -41,22 +42,30 @@ function StationChart() {
 
   function parseDataToPlots(data) {
     const {x, ys, threshold, colors} = data
-    console.log('xs or y is not defined in data', data)
+    console.log('charting', {x, ys, threshold, colors, selectedStation})
 
     if (x && ys) {
-      const plots = []
+      const plots = [{  // index 0 is the selected station
+        x,
+        y: ys[selectedStation],
+        name: selectedStation,
+        type: 'scatter',
+        mode: 'lines+markers',
+        marker: {color: 'pink'}, // same as StationsMapper.jsx line 51
+      }]
+
       Object.keys(ys).forEach((yKey, i) => {
         const stationNeighborIndex = stationNeighbors.findIndex(
           el => el.id === yKey  // find index of element with same id/key as data
         )
-        if (stationNeighborIndex !== -1) {
+        if (stationNeighborIndex !== -1 || yKey === selectedStation.id) {
           plots.push({
             x,
             y: ys[yKey],
             name: yKey,
             type: 'scatter',
             mode: 'lines+markers',
-            marker: {color: colors ? colors[i] : 'red'},
+            marker: {color: colors ? colors[plots.length-1] : 'black'},
           })
         }
       })

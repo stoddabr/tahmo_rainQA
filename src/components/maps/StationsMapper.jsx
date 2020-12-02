@@ -20,7 +20,7 @@ import 'leaflet/dist/leaflet.css';
 
 const limeOptions = { color: 'lime', fillColor: 'lime', fillOpacity: 0.5 }
 const redOptions = { color: 'red', fillColor: 'red', fillOpacity: 0.5 }
-const chartColorList = ['blue', 'green', 'orange', 'magenta'] // should be same as in stationSlice.jsx
+const chartColorList = ['gold', 'teal', 'blue', 'blueViolet', 'magenta'] // should be same as in stationSlice.jsx
 
 function Station({station, index}) {
   const inputEl = useRef(null);
@@ -28,10 +28,11 @@ function Station({station, index}) {
   const dispatch = useDispatch();
   const highlightedStationKey = useSelector(selectHighlightedStation);
   const stationNeighbors = useSelector(selectStationNeighbors);
+  const stationName = useSelector(selectStationName);
 
   useEffect(()=>{
     if (highlightedStationKey && station.key === highlightedStationKey) {
-      setPathOptions( { ...pathOptions, fillColor:'white' } )
+      setPathOptions( { ...pathOptions, fillColor: 'white' } )
       inputEl.current.openPopup()
     }  else {
       setPathOptions( station.isFlagged ? redOptions : limeOptions )
@@ -44,7 +45,11 @@ function Station({station, index}) {
     )
     console.log('station neighbor', neighborIndex)
     if (neighborIndex !== -1) { // match chart color if neighbor
-      setPathOptions({ ...pathOptions, color: chartColorList[neighborIndex] || 'red' })
+      setPathOptions({ ...pathOptions, color: chartColorList[neighborIndex] || 'black' })
+    }
+    if (stationName === station.name) {
+      const mainStationColor = 'pink'  // same as StationChart.jsx line 53
+      setPathOptions({ ...pathOptions, color: mainStationColor })
     }
   }, [highlightedStationKey, stationNeighbors])
 

@@ -180,7 +180,8 @@ function parseWeatherData(apiData) {
       x_running_vals.push(value);
   }
 
-  const chartColorList = ['blue', 'green', 'orange', 'magenta'] // should be same as in StationsMapper.jsx
+  // based on tertiary colors
+  const chartColorList = ['gold', 'teal', 'blue', 'blueViolet', 'magenta'] // should be same as in StationsMapper.jsx
   const appData = {
     "daily": {
       "colors": chartColorList,
