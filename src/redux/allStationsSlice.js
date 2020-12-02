@@ -29,7 +29,7 @@ export const {
   clearHighlightedStation, setHighlightedStation,  
 } = allStationsSlice.actions;
 //for testing
-const map_data = require('./anomaly_list.json');
+const map_data = require('./data/anomaly_list.json');
 console.log("check anaomaly_list");
 console.log("num values: ", map_data[0].id, map_data[0].date, map_data[1].station_id);
 console.log("the length of struct ", map_data.length);

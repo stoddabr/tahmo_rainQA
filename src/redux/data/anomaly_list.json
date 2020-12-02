@@ -1,0 +1,294 @@
+[
+    {
+        "id": 3335,
+        "date": "2020-11-14",
+        "station_id": "TA00061",
+        "station_name": "Kipsigis Girls High School",
+        "station_type": "Secondary school",
+        "station_timezone": "Africa/Nairobi",
+        "station_countrycode": "KE",
+        "station_elevationmsl": 1968,
+        "station_latitude": -0.3793746,
+        "station_longitude": 35.2507188,
+        "station_precipitation": 26.175999999999995,
+        "station_lightning": 58.0,
+        "neighbor_precipitation": {
+            "TA00076": 28.02199999999999,
+            "TA00077": 48.148000000000046,
+            "TA00388": 38.631000000000014,
+            "TA00394": 52.82400000000001,
+            "TA00587": 31.721
+        },
+        "scoring_response": {
+            "status": "success",
+            "results": [
+                {
+                    "score": 1052.6993319894477,
+                    "message": "Successfully computed QC score.",
+                    "qc_flag": 2,
+                    "qc_method": "MixLinearResidual with 5 neighbors)",
+                    "period_end": "2020-11-14T23:59:59Z",
+                    "sensorcode": "S000724",
+                    "qc_variable": "precipitation",
+                    "period_start": "2020-11-14T00:00:00Z",
+                    "qc_flag_threshold": 178.849,
+                    "qc_flag_threshold_method": "Threshold is obtained from evaluation metric"
+                }
+            ],
+            "model_id": "5f6ad1ce6e5c217fe67fec93",
+            "neighbors": [
+                "TA00077",
+                "TA00587",
+                "TA00394",
+                "TA00388",
+                "TA00076"
+            ],
+            "qc_app_version": 1.1,
+            "target_station": "TA00061",
+            "weather_variable": "precipitation"
+        },
+        "description": "Rainfall of 26.18mm at target station Kipsigis Girls High School (TA00061) was flagged as inconsistent. The 5 neighboring stations had rainfall level(s): ['TA00076(28.02mm)', 'TA00077(48.15mm)', 'TA00388(38.63mm)', 'TA00394(52.82mm)', 'TA00587(31.72mm)'] The anomaly score was 1052.7 and the threshold was 178.85. Lightning level at the target station was 58.0. Anomaly was predicted using MixLinearResidual with 5 neighbors by RainQC version 1.1."
+    },
+    {
+        "id": 3336,
+        "date": "2020-11-14",
+        "station_id": "TA00076",
+        "station_name": "Urudi Mixed Secondary School",
+        "station_type": "Secondary school",
+        "station_timezone": "Africa/Nairobi",
+        "station_countrycode": "KE",
+        "station_elevationmsl": 1170,
+        "station_latitude": -0.2843613,
+        "station_longitude": 34.9546417,
+        "station_precipitation": 28.02199999999999,
+        "station_lightning": 85.0,
+        "neighbor_precipitation": {
+            "TA00061": 26.175999999999995,
+            "TA00077": 48.148000000000046,
+            "TA00388": 38.631000000000014,
+            "TA00394": 52.82400000000001,
+            "TA00587": 31.721
+        },
+        "scoring_response": {
+            "status": "success",
+            "results": [
+                {
+                    "score": 1164.777709477492,
+                    "message": "Successfully computed QC score.",
+                    "qc_flag": 2,
+                    "qc_method": "MixLinearResidual with 5 neighbors)",
+                    "period_end": "2020-11-14T23:59:59Z",
+                    "sensorcode": "S000804",
+                    "qc_variable": "precipitation",
+                    "period_start": "2020-11-14T00:00:00Z",
+                    "qc_flag_threshold": 224.453,
+                    "qc_flag_threshold_method": "Threshold is obtained from evaluation metric"
+                }
+            ],
+            "model_id": "5f6ac77a6e5c217fe67fec8e",
+            "neighbors": [
+                "TA00394",
+                "TA00587",
+                "TA00077",
+                "TA00388",
+                "TA00061"
+            ],
+            "qc_app_version": 1.1,
+            "target_station": "TA00076",
+            "weather_variable": "precipitation"
+        },
+        "description": "Rainfall of 28.02mm at target station Urudi Mixed Secondary School (TA00076) was flagged as inconsistent. The 5 neighboring stations had rainfall level(s): ['TA00061(26.18mm)', 'TA00077(48.15mm)', 'TA00388(38.63mm)', 'TA00394(52.82mm)', 'TA00587(31.72mm)'] The anomaly score was 1164.78 and the threshold was 224.45. Lightning level at the target station was 85.0. Anomaly was predicted using MixLinearResidual with 5 neighbors by RainQC version 1.1."
+    },
+    {
+        "id": 3337,
+        "date": "2020-11-14",
+        "station_id": "TA00077",
+        "station_name": "Musaria Secondary School",
+        "station_type": "School",
+        "station_timezone": "Africa/Nairobi",
+        "station_countrycode": "KE",
+        "station_elevationmsl": 1765,
+        "station_latitude": -0.3830663,
+        "station_longitude": 35.0684057,
+        "station_precipitation": 48.148000000000046,
+        "station_lightning": 151.0,
+        "neighbor_precipitation": {
+            "TA00061": 26.175999999999995,
+            "TA00076": 28.02199999999999,
+            "TA00388": 38.631000000000014,
+            "TA00394": 52.82400000000001,
+            "TA00587": 31.721
+        },
+        "scoring_response": {
+            "status": "success",
+            "results": [
+                {
+                    "score": 441.6811102611225,
+                    "message": "Successfully computed QC score.",
+                    "qc_flag": 2,
+                    "qc_method": "MixLinearResidual with 5 neighbors)",
+                    "period_end": "2020-11-14T23:59:59Z",
+                    "sensorcode": "S000809",
+                    "qc_variable": "precipitation",
+                    "period_start": "2020-11-14T00:00:00Z",
+                    "qc_flag_threshold": 361.784,
+                    "qc_flag_threshold_method": "Threshold is obtained from evaluation metric"
+                }
+            ],
+            "model_id": "5f6afb8c6e5c217fe67fecae",
+            "neighbors": [
+                "TA00587",
+                "TA00394",
+                "TA00076",
+                "TA00388",
+                "TA00061"
+            ],
+            "qc_app_version": 1.1,
+            "target_station": "TA00077",
+            "weather_variable": "precipitation"
+        },
+        "description": "Rainfall of 48.15mm at target station Musaria Secondary School (TA00077) was flagged as inconsistent. The 5 neighboring stations had rainfall level(s): ['TA00061(26.18mm)', 'TA00076(28.02mm)', 'TA00388(38.63mm)', 'TA00394(52.82mm)', 'TA00587(31.72mm)'] The anomaly score was 441.68 and the threshold was 361.78. Lightning level at the target station was 151.0. Anomaly was predicted using MixLinearResidual with 5 neighbors by RainQC version 1.1."
+    },
+    {
+        "id": 3339,
+        "date": "2020-11-14",
+        "station_id": "TA00587",
+        "station_name": "Upper Nyando",
+        "station_type": "School",
+        "station_timezone": "Africa/Nairobi",
+        "station_countrycode": "KE",
+        "station_elevationmsl": 1584,
+        "station_latitude": -0.341075,
+        "station_longitude": 35.04938,
+        "station_precipitation": 31.721,
+        "station_lightning": 64.0,
+        "neighbor_precipitation": {
+            "TA00061": 26.175999999999995,
+            "TA00076": 28.02199999999999,
+            "TA00077": 48.148000000000046,
+            "TA00388": 38.631000000000014,
+            "TA00394": 52.82400000000001
+        },
+        "scoring_response": {
+            "status": "success",
+            "results": [
+                {
+                    "score": 1268.523077055066,
+                    "message": "Successfully computed QC score.",
+                    "qc_flag": 2,
+                    "qc_method": "MixLinearResidual with 5 neighbors)",
+                    "period_end": "2020-11-14T23:59:59Z",
+                    "sensorcode": "S000173",
+                    "qc_variable": "precipitation",
+                    "period_start": "2020-11-14T00:00:00Z",
+                    "qc_flag_threshold": 278.601,
+                    "qc_flag_threshold_method": "Threshold is obtained from evaluation metric"
+                }
+            ],
+            "model_id": "5f6af0b26e5c217fe67feca8",
+            "neighbors": [
+                "TA00077",
+                "TA00394",
+                "TA00076",
+                "TA00388",
+                "TA00061"
+            ],
+            "qc_app_version": 1.1,
+            "target_station": "TA00587",
+            "weather_variable": "precipitation"
+        },
+        "description": "Rainfall of 31.72mm at target station Upper Nyando (TA00587) was flagged as inconsistent. The 5 neighboring stations had rainfall level(s): ['TA00061(26.18mm)', 'TA00076(28.02mm)', 'TA00077(48.15mm)', 'TA00388(38.63mm)', 'TA00394(52.82mm)'] The anomaly score was 1268.52 and the threshold was 278.6. Lightning level at the target station was 64.0. Anomaly was predicted using MixLinearResidual with 5 neighbors by RainQC version 1.1."
+    },
+    {
+        "id": 3135,
+        "date": "2020-11-15",
+        "station_id": "TA00589",
+        "station_name": "Juma Island",
+        "station_type": "School",
+        "station_timezone": "Africa/Nairobi",
+        "station_countrycode": "TZ",
+        "station_elevationmsl": 1166,
+        "station_latitude": -2.43833,
+        "station_longitude": 32.747035,
+        "station_precipitation": 23.451999999999995,
+        "station_lightning": 0.0,
+        "neighbor_precipitation": {
+            "TA00590": 2.5679999999999996
+        },
+        "scoring_response": {
+            "status": "success",
+            "results": [
+                {
+                    "score": 37.5079343664958,
+                    "message": "Successfully computed QC score.",
+                    "qc_flag": 2,
+                    "qc_method": "MixLinearResidual with 1 neighbors)",
+                    "period_end": "2020-11-15T23:59:59Z",
+                    "sensorcode": "S000971",
+                    "qc_variable": "precipitation",
+                    "period_start": "2020-11-15T00:00:00Z",
+                    "qc_flag_threshold": 29.353,
+                    "qc_flag_threshold_method": "Threshold is obtained from evaluation metric"
+                }
+            ],
+            "model_id": "5f6af6d46e5c217fe67fecaa",
+            "neighbors": [
+                "TA00590"
+            ],
+            "qc_app_version": 1.1,
+            "target_station": "TA00589",
+            "weather_variable": "precipitation"
+        },
+        "description": "Rainfall of 23.45mm at target station Juma Island (TA00589) was flagged as inconsistent. The 1 neighboring stations had rainfall level(s): ['TA00590(2.57mm)'] The anomaly score was 37.51 and the threshold was 29.35. Lightning level at the target station was 0.0. Anomaly was predicted using MixLinearResidual with 1 neighbors by RainQC version 1.1."
+    },
+    {
+        "id": 3343,
+        "date": "2020-11-15",
+        "station_id": "TA00394",
+        "station_name": "Nyando Smart Farm",
+        "station_type": "Farm",
+        "station_timezone": "Africa/Nairobi",
+        "station_countrycode": "KE",
+        "station_elevationmsl": 1231,
+        "station_latitude": -0.288215,
+        "station_longitude": 35.02974,
+        "station_precipitation": 20.130000000000006,
+        "station_lightning": 98.0,
+        "neighbor_precipitation": {
+            "TA00061": 1.5489999999999997,
+            "TA00076": 28.432999999999993,
+            "TA00077": 15.262999999999996,
+            "TA00388": 12.658,
+            "TA00587": 31.926999999999996
+        },
+        "scoring_response": {
+            "status": "success",
+            "results": [
+                {
+                    "score": 540.4106752646192,
+                    "message": "Successfully computed QC score.",
+                    "qc_flag": 2,
+                    "qc_method": "MixLinearResidual with 5 neighbors)",
+                    "period_end": "2020-11-15T23:59:59Z",
+                    "sensorcode": "S000403",
+                    "qc_variable": "precipitation",
+                    "period_start": "2020-11-15T00:00:00Z",
+                    "qc_flag_threshold": 335.306,
+                    "qc_flag_threshold_method": "Threshold is obtained from evaluation metric"
+                }
+            ],
+            "model_id": "5f6aec246e5c217fe67feca3",
+            "neighbors": [
+                "TA00587",
+                "TA00076",
+                "TA00077",
+                "TA00388",
+                "TA00061"
+            ],
+            "qc_app_version": 1.1,
+            "target_station": "TA00394",
+            "weather_variable": "precipitation"
+        },
+        "description": "Rainfall of 20.13mm at target station Nyando Smart Farm (TA00394) was flagged as inconsistent. The 5 neighboring stations had rainfall level(s): ['TA00061(1.55mm)', 'TA00076(28.43mm)', 'TA00077(15.26mm)', 'TA00388(12.66mm)', 'TA00587(31.93mm)'] The anomaly score was 540.41 and the threshold was 335.31. Lightning level at the target station was 98.0. Anomaly was predicted using MixLinearResidual with 5 neighbors by RainQC version 1.1."
+    }
+]

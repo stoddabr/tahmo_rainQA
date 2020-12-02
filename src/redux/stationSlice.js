@@ -4,20 +4,26 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   id: false,
+  name: false,
   data: false,
+  neighbors: [],
   chartType: 'daily',
 }
 export const stationSlice = createSlice({
   name: 'station',
   initialState,
   reducers: {
-    setStationId: (state, action) => {
-      state.id = action.payload;
+    setSelectedStation: (state, action) => {
+      state.id = action.payload.id;
+      state.name = action.payload.name || action.payload.id;
+      state.neighbors = action.payload.neighbors;
       state.data = false;
     },
     clearStation: state => {
       state.id = initialState.id;
       state.data = initialState.data;
+      state.name = initialState.name;
+      state.neighbors = initialState.neighbors;
       state.chartType = initialState.chartType;
     },
     setWeatherData: (state, action) => {
@@ -30,9 +36,19 @@ export const stationSlice = createSlice({
   },
 });
 
-export const { setStationId, clearStation, setWeatherData, selectChart } = stationSlice.actions;
+export const { setSelectedStation, clearStation, setWeatherData, selectChart } = stationSlice.actions;
 
-// for testing
+// The function below is called a selector and allows us to select a value from
+// the state. Selectors can also be defined inline where they're used instead of
+// in the slice file. For example: `useSelector((state) => state.counter.value)`
+export const selectStationId = state => state.station.id;
+export const selectStationName = state => state.station.name;
+export const selectStationNeighbors = state => state.station.neighbors;
+export const selectStationData = state => state.station.data;
+export const selectChartType = state => state.station.chartType;
+
+
+// for generating real fake data
 const num = 40;
 const generateFakeData = (max) => Array.from(
   {length: num},
@@ -86,28 +102,6 @@ const fakeWeatherData = {
 }
 console.log('asdf', {fakeWeatherData}, JSON.stringify(fakeWeatherData))
 
-const environment = 
-{
-  username: process.env.REACT_APP_TAHMOAPI_USERNAME,
-  password: process.env.REACT_APP_TAHMOAPI_PASSWORD
-}
-
-let options = {
-  method: 'GET',
-  //mode: 'no-cors',
-  headers: {
-    'Content-Type': 'application/json'
-  }
-}
-
-fetch('http://time.jsontest.com/', options)
-.then(response => {
-  if (response.ok) {
-    response.json().then(json => {
-      console.log(json);
-    });
-  }
-});
 
 const all_weather_data = [require("./data/station-TA00061-data-2020-10-14-to-2020-11-15-pr-sums.json"),
 require("./data/station-TA00076-data-2020-10-14-to-2020-11-15-pr-sums.json"),
@@ -121,50 +115,6 @@ parseWeatherData(all_weather_data);
 
 const weather_data_61 = require("./data/station-TA00061-data-2020-10-14-to-2020-11-15-pr-sums.json");
 console.log('weather data: ', {all_weather_data}, JSON.stringify(all_weather_data));
-
-/*
-let options = {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Basic ' + environment.username + ':' + environment.password
-  }
-}
-
-fetch('https://datahub.tahmo.org/services/assets/v2/stations', options)
-.then(response => {
-  if (response.ok) {
-    response.json().then(json => {
-      console.log(json);
-    });
-  }
-});
-*/
-/*
-.then(response => response.json())
-.then((response) => {
-  console.log("Hello", response);
-}).catch(error => { console.log('request failed', error)});
-*/
-
-
-/*
-console.log("This is the data I got!!!", environment.username);
-var request = require ('request');
-request('https://datahub.tahmo.org/services/assets/v2/stations', 
-{
-  'auth': {
-    'user': environment.username,
-    'pass': environment.password,
-    'sendImmediately': true
-  }
-},
-function (error, response, body) {
-  console.error('error:', error); // Print the error if one occurred
-  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  console.log('body:', body); // Print the HTML for the Google homepage.
-});
-*/
 
 //var tahmo_data = request.get('https://datahub.tahmo.org/services/assets/v2/stations').auth(environment.username, environment.password, false);
 //console.log("This is the data I got!!!", tahmo_data);//, {tahmo_data}, JSON.stringify(tahmo_data));
@@ -229,10 +179,11 @@ function parseWeatherData(apiData) {
   for (const value in apiData[0].running_sums){
       x_running_vals.push(value);
   }
-   
-   const appData = {
+
+  const chartColorList = ['blue', 'green', 'orange', 'magenta'] // should be same as in StationsMapper.jsx
+  const appData = {
     "daily": {
-      "colors": ['blue', 'green', 'orange'],
+      "colors": chartColorList,
       "ys": {
         //[station_name]: daily_vals
       },
@@ -240,7 +191,7 @@ function parseWeatherData(apiData) {
       "threshold": 0
     },
     "weekly": {
-      "colors": ['blue', 'green', 'orange'],
+      "colors": chartColorList,
       "ys": {
         //[station_name]: weekly_vals
       },
@@ -248,7 +199,7 @@ function parseWeatherData(apiData) {
       "threshold": 0
     },
     "dm": {
-      "colors": ['blue', 'green', 'orange'],
+      "colors": chartColorList,
       "ys": {
         //[station_name]: running_vals
       },
@@ -261,8 +212,7 @@ function parseWeatherData(apiData) {
     appData.weekly.ys[station_name[i]] = all_weekly_vals[i];
     appData.dm.ys[station_name[i]] = all_running_vals[i];
   }
-  
-  
+
   console.log("app data: ", appData);
   return appData;
 }
@@ -285,12 +235,72 @@ export const getWeatherData = stationKey => dispatch => {
   }, 1000);
 };
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-export const selectStationId = state => state.station.id;
-export const selectStationData = state => state.station.data;
-export const selectChartType = state => state.station.chartType;
 
 export default stationSlice.reducer;
 
+
+/* tests with calling a server
+
+const environment = 
+{
+  username: process.env.REACT_APP_TAHMOAPI_USERNAME,
+  password: process.env.REACT_APP_TAHMOAPI_PASSWORD
+}
+
+let options = {
+  method: 'GET',
+  //mode: 'no-cors',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
+
+fetch('http://time.jsontest.com/', options)
+.then(response => {
+  if (response.ok) {
+    response.json().then(json => {
+      console.log(json);
+    });
+  }
+});
+
+let options = {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Basic ' + environment.username + ':' + environment.password
+  }
+}
+
+fetch('https://datahub.tahmo.org/services/assets/v2/stations', options)
+.then(response => {
+  if (response.ok) {
+    response.json().then(json => {
+      console.log(json);
+    });
+  }
+});
+
+
+.then(response => response.json())
+.then((response) => {
+  console.log("Hello", response);
+}).catch(error => { console.log('request failed', error)});
+
+
+console.log("This is the data I got!!!", environment.username);
+var request = require ('request');
+request('https://datahub.tahmo.org/services/assets/v2/stations', 
+{
+  'auth': {
+    'user': environment.username,
+    'pass': environment.password,
+    'sendImmediately': true
+  }
+},
+function (error, response, body) {
+  console.error('error:', error); // Print the error if one occurred
+  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  console.log('body:', body); // Print the HTML for the Google homepage.
+});
+*/

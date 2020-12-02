@@ -10,8 +10,7 @@ import createPlotlyComponent from 'react-plotly.js/factory';
 import generatePlotlyChart from './configStationChart'
 import {
   getWeatherData, // thunk
-  selectStationData,
-  selectChartType,
+  selectStationData, selectChartType, selectStationNeighbors, // selectors
 } from '../../redux/stationSlice';
 import { selectHighlightedStation } from '../../redux/allStationsSlice'
 
@@ -24,8 +23,9 @@ function StationChart() {
   const [plotConfig, setPlotConfig] = useState({
     data: [], layout: {title:'Tahmo Data'}, frames: [], config: {displaylogo: false
   }})
-  
+
   const weatherData = useSelector(selectStationData);
+  const stationNeighbors = useSelector(selectStationNeighbors)
   const selectedPlot = useSelector(selectChartType);
   const selectedStation = useSelector(selectHighlightedStation)
   const dispatch = useDispatch();
@@ -46,14 +46,19 @@ function StationChart() {
     if (x && ys) {
       const plots = []
       Object.keys(ys).forEach((yKey, i) => {
-        plots.push({
-          x,
-          y: ys[yKey],
-          name: yKey,
-          type: 'scatter',
-          mode: 'lines+markers',
-          marker: {color: colors ? colors[i] : 'red'},
-        })
+        const stationNeighborIndex = stationNeighbors.findIndex(
+          el => el.id === yKey  // find index of element with same id/key as data
+        )
+        if (stationNeighborIndex !== -1) {
+          plots.push({
+            x,
+            y: ys[yKey],
+            name: yKey,
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: {color: colors ? colors[i] : 'red'},
+          })
+        }
       })
       if (threshold) {
         plots.push(        {
@@ -62,7 +67,7 @@ function StationChart() {
           name: 'Threshold',
           type: 'scatter',
           mode: 'lines',
-          marker: {color: 'red'},
+          marker: {color: 'black'},
         })
       }
       return plots

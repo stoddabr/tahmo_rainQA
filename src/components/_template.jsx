@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setStationId,
+  setSelectedStation,
 } from '../redux/stationSlice';
 import { Row, Col, Form, Input, Button, Checkbox, message } from 'antd';
 
@@ -19,7 +19,7 @@ export default function Template() {
   function onSubmit({stationId}) {
     console.log('form submit', stationId)
     if (stationId)
-      dispatch(setStationId(stationId))
+      dispatch(setSelectedStation({ id: stationId, name: 'EXAMPLE_1' }))
     else
       message.error(`Invalid station id: "${stationId}"`)
   }

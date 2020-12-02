@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  selectStationId,
+  selectStationName, selectStationNeighbors
 } from '../../redux/stationSlice';
 import {
   selectAllStations, selectHighlightedStation, 
   setHighlightedStation, clearHighlightedStation,
 } from '../../redux/allStationsSlice';
-import { Row, Col, } from 'antd';
+import { setSelectedStation } from '../../redux/stationSlice';
 import { 
   MapContainer , CircleMarker, Polyline, Popup, TileLayer, 
-  useMap, useMapEvent
+  useMap, useMapEvent,
 } from "react-leaflet";
 import "leaflet/dist/images/marker-shadow.png";
 import 'leaflet/dist/leaflet.css';
@@ -18,25 +18,35 @@ import 'leaflet/dist/leaflet.css';
 // https://react-leaflet.js.org/docs/api-map
 
 
-const limeOptions = { color: 'lime', fillColor: 'lime' }
-const redOptions = { color: 'red', fillColor: 'red' }
-
+const limeOptions = { color: 'lime', fillColor: 'lime', fillOpacity: 0.5 }
+const redOptions = { color: 'red', fillColor: 'red', fillOpacity: 0.5 }
+const chartColorList = ['blue', 'green', 'orange', 'magenta'] // should be same as in stationSlice.jsx
 
 function Station({station, index}) {
   const inputEl = useRef(null);
   const [pathOptions, setPathOptions] = useState(station.isFlagged ? redOptions : limeOptions);
   const dispatch = useDispatch();
   const highlightedStationKey = useSelector(selectHighlightedStation);
+  const stationNeighbors = useSelector(selectStationNeighbors);
 
   useEffect(()=>{
     if (highlightedStationKey && station.key === highlightedStationKey) {
-      setPathOptions( { ...pathOptions, fillColor:'blue' } )
+      setPathOptions( { ...pathOptions, fillColor:'white' } )
       inputEl.current.openPopup()
     }  else {
       setPathOptions( station.isFlagged ? redOptions : limeOptions )
       inputEl.current.closePopup()
     }
-  }, [highlightedStationKey])
+
+    // highlight to match chart
+    const neighborIndex = stationNeighbors.findIndex(
+      el => el.id === station.key  // find index of element with same id/key as data
+    )
+    console.log('station neighbor', neighborIndex)
+    if (neighborIndex !== -1) { // match chart color if neighbor
+      setPathOptions({ ...pathOptions, color: chartColorList[neighborIndex] || 'red' })
+    }
+  }, [highlightedStationKey, stationNeighbors])
 
   function onHoverStation(e) {
     console.log('hover station', e.target.options.name)
@@ -51,7 +61,11 @@ function Station({station, index}) {
   }
 
   function onMarkerClick(station) {
-    console.log('asaoifjowjfoidjf', station)
+    console.log('onMarkerClick selected', station)
+    const name = station.name
+    const id = station.key
+    const neighbors = station.neighbors
+    dispatch(setSelectedStation({name, id, neighbors}))
   }
 
   return (
@@ -66,7 +80,7 @@ function Station({station, index}) {
         mouseout: onHoverOffStation,
       }}
     >
-      <Popup>{station.name}</Popup>
+      <Popup>{`${station.name} (${station.key})`}</Popup>
     </CircleMarker>
   );
 }
@@ -106,21 +120,24 @@ function StationConnections({connections, mainGps}) {
 
 export default function StationsMapper() {
   const stationList = useSelector(selectAllStations)
-  const stationId = useSelector(selectStationId);
+  const stationName = useSelector(selectStationName);
   const [connections, setConnections] = useState([])
   const [mainGps, setMainGps] = useState([0,0])
 
   function setupLines() {
-    const station = stationList.find(el=> el.name === stationId)
+    const station = stationList.find(el=> el.name === stationName)
     if(station){
-      console.log({stationId, station})
+      console.log({stationName, station})
       setConnections(station.neighbors)
       setMainGps(station.gps)
+    } else {
+      setConnections([])
     }
   }
+
   useEffect(()=>{ // update connections when a station is selected
     setupLines()
-  },[stationId])
+  },[stationName])
   useEffect(()=>{ // update connections when a station is selected
     setupLines()
   },[])

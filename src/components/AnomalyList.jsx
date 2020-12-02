@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setStationId,
+  setSelectedStation,
 } from '../redux/stationSlice';
 import {
   selectAllStations, selectHighlightedStation, 
@@ -59,17 +59,20 @@ export default function AnomalyList() {
   const stationList = useSelector(selectAllStations)
   const highlightedStationKey = useSelector(selectHighlightedStation);
 
-  function onSubmit({stationId}) {
-    console.log('form submit', stationId)
-    if (stationId)
-      dispatch(setStationId(stationId))
+  function onSubmit(station) {
+    const id = station.key
+    const name = station.name
+    const neighbors = station.neighbors
+    console.log('form submit', {id, name})
+    if (id)
+      dispatch(setSelectedStation({id, name, neighbors}))
     else
-      message.error(`Invalid station id: "${stationId}"`)
+      message.error(`Invalid station id: "${id}"`)
   }
 
   function rowSelected(row, i) {
     console.log("rowSelected", row, i)
-    onSubmit({stationId: row.name})
+    onSubmit(row)
   }
 
   function onRowHover(record) {

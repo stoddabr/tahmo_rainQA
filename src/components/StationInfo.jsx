@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  clearStation,selectStationId, selectChart, selectStationData,
+  clearStation,selectStationId, selectChart, selectStationData, 
+  selectStationName,
 } from '../redux/stationSlice';
 import { PageHeader, Tabs } from 'antd';
 import StationChart from './charts/StationChart'
@@ -29,6 +30,7 @@ export default function StationInfo() {
   const dispatch = useDispatch();
   const close = () => dispatch(clearStation());
   const stationId = useSelector(selectStationId);
+  const stationName = useSelector(selectStationName);
   const weatherData = useSelector(selectStationData);
 
   function onTabSelect(key) {
@@ -47,8 +49,8 @@ export default function StationInfo() {
       <PageHeader
         className="site-page-header"
         onBack={close}
-        title={`Station: ${stationId}`}
-        subTitle="Showing weather information"
+        title={`Station: ${stationName}`}
+        subTitle={`Id: ${stationId}`}
       />
       <Tabs onChange={onTabSelect} type="card" size="large" style={{padding:'0 10px'}}>
         { tabData && tabData.map((tab,i) => (
