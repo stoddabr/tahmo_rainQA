@@ -50,6 +50,10 @@ function Station({station, index}) {
     dispatch(clearHighlightedStation())
   }
 
+  function onMarkerClick(station) {
+    console.log('asaoifjowjfoidjf', station)
+  }
+
   return (
     <CircleMarker 
       ref={inputEl}
@@ -57,7 +61,7 @@ function Station({station, index}) {
       name={station.key}
       center={station.gps} pathOptions={pathOptions} radius={15}
       eventHandlers={{
-        click: () => { console.log('marker clicked') },
+        click: () => { onMarkerClick(station) },
         mouseover: onHoverStation,
         mouseout: onHoverOffStation,
       }}

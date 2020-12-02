@@ -185,96 +185,85 @@ function parseWeatherData(apiData) {
    */
    //const appData = apiData;
    
-   const station_name = [];
-   for(var i = 0; i < apiData.length; i++)
-   {
-		station_name.push(apiData[i].station_name);
-   }
-   
-   const all_daily_vals = [];
-   
-   const x_daily_vals = [];
-   for(var i = 0; i < apiData.length; i++)
-   {
-	   const daily_vals = [];
-	   for (const value in apiData[i].daily_sums)
-	   {
-		   daily_vals.push(apiData[i].daily_sums[value]);
-	   }
-	   all_daily_vals.push(daily_vals);
-   }
-   for (const value in apiData[0].daily_sums)
-   {
+  const station_name = [];
+  for(var i = 0; i < apiData.length; i++){
+    station_name.push(apiData[i].station_name);
+  }
+  
+  const all_daily_vals = [];
+  
+  const x_daily_vals = [];
+  for(var i = 0; i < apiData.length; i++){
+    const daily_vals = [];
+    for (const value in apiData[i].daily_sums){
+      daily_vals.push(apiData[i].daily_sums[value]);
+    }
+    all_daily_vals.push(daily_vals);
+  }
+  for (const value in apiData[0].daily_sums){
       x_daily_vals.push(value);
-   }
-   
-   const all_weekly_vals = [];
-   const x_weekly_vals = [];
-   for(var i = 0; i < apiData.length; i++)
-   {
-	   const weekly_vals = [];
-	   for (const value in apiData[i].weekly_sums)
-	   {
-		   weekly_vals.push(apiData[i].weekly_sums[value]);
-	   }
-	   all_weekly_vals.push(weekly_vals);
-   }
-   for (const value in apiData[0].weekly_sums)
-   {
+  }
+  
+  const all_weekly_vals = [];
+  const x_weekly_vals = [];
+  for(var i = 0; i < apiData.length; i++){
+    const weekly_vals = [];
+    for (const value in apiData[i].weekly_sums){
+      weekly_vals.push(apiData[i].weekly_sums[value]);
+    }
+    all_weekly_vals.push(weekly_vals);
+  }
+  for (const value in apiData[0].weekly_sums){
       x_weekly_vals.push(value);
-   }
-   
-   const all_running_vals = [];
-   const x_running_vals = [];
-   for(var i = 0; i < apiData.length; i++)
-   {
-	   const running_vals = [];
-	   for (const value in apiData[i].running_sums)
-	   {
-		   running_vals.push(apiData[i].running_sums[value]);
-	   }
-	   all_running_vals.push(running_vals);
-   }
-   for (const value in apiData[0].running_sums)
-   {
+  }
+  
+  const all_running_vals = [];
+  const x_running_vals = [];
+  for(var i = 0; i < apiData.length; i++){
+    const running_vals = [];
+    for (const value in apiData[i].running_sums){
+      running_vals.push(apiData[i].running_sums[value]);
+    }
+    all_running_vals.push(running_vals);
+  }
+  for (const value in apiData[0].running_sums){
       x_running_vals.push(value);
-   }
+  }
    
    const appData = {
-	"daily": {
-		"colors": ['blue', 'green', 'orange'],
-		"ys": {
-			//[station_name]: daily_vals
-		},
-		"x": x_daily_vals,
-		"threshold": 0
-	},
-	"weekly": {
-		"colors": ['blue', 'green', 'orange'],
-		"ys": {
-			//[station_name]: weekly_vals
-		},
-		"x": x_weekly_vals,
-		"threshold": 0
-	},
-	"dm": {
-		"colors": ['blue', 'green', 'orange'],
-		"ys": {
-			//[station_name]: running_vals
-		},
-		"x": x_running_vals,
-		"threshold": 0
-	}
-   }
-   for(var i = 0; i < apiData.length; i++)
-   {
-       appData.daily.ys[station_name[i]] = all_daily_vals[i];
-	   appData.weekly.ys[station_name[i]] = all_weekly_vals[i];
-	   appData.dm.ys[station_name[i]] = all_running_vals[i];
-   }
-   
-   
-   console.log("app data: ", appData);
+    "daily": {
+      "colors": ['blue', 'green', 'orange'],
+      "ys": {
+        //[station_name]: daily_vals
+      },
+      "x": x_daily_vals,
+      "threshold": 0
+    },
+    "weekly": {
+      "colors": ['blue', 'green', 'orange'],
+      "ys": {
+        //[station_name]: weekly_vals
+      },
+      "x": x_weekly_vals,
+      "threshold": 0
+    },
+    "dm": {
+      "colors": ['blue', 'green', 'orange'],
+      "ys": {
+        //[station_name]: running_vals
+      },
+      "x": x_running_vals,
+      "threshold": 0
+    }
+  }
+  for(var i = 0; i < apiData.length; i++) {
+    appData.daily.ys[station_name[i]] = all_daily_vals[i];
+    appData.weekly.ys[station_name[i]] = all_weekly_vals[i];
+    appData.dm.ys[station_name[i]] = all_running_vals[i];
+  }
+  
+  
+  console.log("app data: ", appData);
   return appData;
 }
 
@@ -290,7 +279,7 @@ function parseWeatherData(apiData) {
  * @see dispatch(setStationData(*)) for storing data to the redux store
  * @param {*} amount used for getting proper station information *TBD*
  */
-export const getWeatherData = amount => dispatch => {
+export const getWeatherData = stationKey => dispatch => {
   setTimeout(() => {
     dispatch(setWeatherData(all_weather_data));
   }, 1000);

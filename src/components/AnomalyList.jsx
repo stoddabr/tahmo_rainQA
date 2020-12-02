@@ -8,7 +8,7 @@ import {
   setHighlightedStation, clearHighlightedStation,
 } from '../redux/allStationsSlice';
 import { 
-  Row, Col, Typography, Table, Divider, message 
+  Row, Col, Typography, Table, Divider, Spin, Space, message
 } from 'antd';
 const { Paragraph } = Typography;
 
@@ -16,36 +16,24 @@ const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
-    filters: [
-      {
-        text: 'Joe',
-        value: 'Joe',
-      },
-      {
-        text: 'Jim',
-        value: 'Jim',
-      },
-      {
-        text: 'Submenu',
-        value: 'Submenu',
-        children: [
-          {
-            text: 'Green',
-            value: 'Green',
-          },
-          {
-            text: 'Black',
-            value: 'Black',
-          },
-        ],
-      },
-    ],
+    // filters: [],
     // specify the condition of filtering result
     // here is that finding the name started with `value`
     onFilter: (value, record) => record.name.indexOf(value) === 0,
     sorter: (a, b) => a.name.length - b.name.length,
     sortDirections: ['descend'],
     width: 200,
+  },
+  {
+    title: 'Station Id',
+    dataIndex: 'key',
+    // filters: [],
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    onFilter: (value, record) => record.name.indexOf(value) === 0,
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ['descend'],
+    width: 150,
   },
   {
     title: 'classification',
@@ -114,18 +102,24 @@ export default function AnomalyList() {
         </Col>
       </Row>
       <Divider orientation="left"></Divider>
-      <Table columns={columns} dataSource={stationList} onChange={onChange} 
-        onRow={(record, rowIndex) => {
-          return {
-            onClick: () => rowSelected(record, rowIndex), // click row
-            // onDoubleClick: e => {}, // double click row
-            // onContextMenu: e => {}, // right button click row
-            onMouseEnter: e => { onRowHover(record) }, // mouse enter row
-            onMouseLeave: e => { onRowHoverEnd(record) }, // mouse leave row
-          };
-        }}
-        pagination={false} // hides bottom bar
-      />
+      { stationList && stationList.length > 0 ?
+        <Table columns={columns} dataSource={stationList} onChange={onChange} 
+          onRow={(record, rowIndex) => {
+            return {
+              onClick: () => rowSelected(record, rowIndex), // click row
+              // onDoubleClick: e => {}, // double click row
+              // onContextMenu: e => {}, // right button click row
+              onMouseEnter: e => { onRowHover(record) }, // mouse enter row
+              onMouseLeave: e => { onRowHoverEnd(record) }, // mouse leave row
+            };
+          }}
+          pagination={false} // hides bottom bar
+        />
+      :
+        <div style={{width:'50vw', height: '200px', textAlign:'center'}}>
+          <Spin size="large"  />
+        </div>
+      }
     </div>
   );
 }
