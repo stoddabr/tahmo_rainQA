@@ -1,4 +1,6 @@
 # Tahmo RainQA Web UI
+An AI-driven decision support dashboard for weather station technitions servicing the entire content of Africa.
+
 Initially built for a CS539 Class Project
 For use in the larger Tahmo project: https://tahmo.org/
 
@@ -10,7 +12,7 @@ For use in the larger Tahmo project: https://tahmo.org/
 * Ant design for UI/boostrap https://github.com/ant-design/ant-design https://ant.design/components/overview/ 
 
 ## Database
-
+Database is private and so a placeholder, hardcoded json file is included in the project.
 
 # Project creation information
 created 10/29/20 by Brett Stoddard
